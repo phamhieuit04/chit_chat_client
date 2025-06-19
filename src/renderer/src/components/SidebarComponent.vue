@@ -8,7 +8,7 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
 </script>
 
 <template>
-    <div class="flex flex-col gap-4 w-[26%] bg-[#252728] text-white p-5 select-none relative">
+    <div class="flex flex-col gap-4 w-[26%] bg-[#252728] text-white p-5 select-none relative rounded-2xl">
         <!-- Start header -->
         <div class="relative z-50 flex items-center justify-between">
             <h1 class="text-3xl font-bold">Đoạn chat</h1>
@@ -157,6 +157,7 @@ export default {
         },
         getMessages(id) {
             this.selectedMessageId = id;
+            this.$router.push('/chatbox/' + id);
         },
         showModal(type) {
             switch (type) {
