@@ -11,7 +11,8 @@ import { Icon } from '@iconify/vue'
             </div>
         </div>
         <ul class="flex flex-col">
-            <li class="flex gap-2 p-2.5 transition-all duration-200 cursor-pointer hover:brightness-75">
+            <li class="flex gap-2 p-2.5 transition-all duration-200 cursor-pointer hover:brightness-75"
+                @click="$emit('show_modal')">
                 <Icon icon="material-symbols:group-add" class="text-2xl" />
                 <h1>Thêm vào nhóm</h1>
             </li>

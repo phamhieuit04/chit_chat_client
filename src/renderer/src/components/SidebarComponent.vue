@@ -4,6 +4,7 @@ import MessageMenu from '../modals/MessageMenu.vue';
 import AddFriendModal from '../modals/AddFriendModal.vue';
 import SendMessageModal from '../modals/SendMessageModal.vue';
 import CreateGroupModal from '../modals/CreateGroupModal.vue';
+import AddToGroupModal from '../modals/AddToGroupModal.vue';
 </script>
 
 <template>
@@ -105,7 +106,8 @@ import CreateGroupModal from '../modals/CreateGroupModal.vue';
         <!-- End message -->
 
         <!-- Start modal message menu -->
-        <MessageMenu v-if="isShowMenu" :style="messageBoxPosition" @close_modal="closeModal('message_menu')" />
+        <MessageMenu v-if="isShowMenu" :style="messageBoxPosition" @show_modal="showModal('add_to_group')"
+            @close_modal="closeModal('message_menu')" />
         <!-- End modal messsage  menu -->
 
         <!-- Start modal send message -->
@@ -116,7 +118,13 @@ import CreateGroupModal from '../modals/CreateGroupModal.vue';
         <AddFriendModal v-if="isShowModalAddFriend" @close_modal="closeModal('add_friend')" />
         <!-- End modal add friend -->
 
+        <!-- Start modal create group -->
         <CreateGroupModal v-if="isShowModalCreateGroup" @close_modal="closeModal('create_group')" />
+        <!-- End modal create group -->
+
+        <!-- Start modal add to group -->
+        <AddToGroupModal v-if="isShowModalAddToGroup" @close_modal="closeModal('add_to_group')" />
+        <!-- End modal add to group -->
     </div>
 </template>
 
@@ -128,6 +136,7 @@ export default {
             isShowModalSendMessage: false,
             isShowModalAddFriend: false,
             isShowModalCreateGroup: false,
+            isShowModalAddToGroup: false,
             selectedMessageId: 0,
             messageBoxPosition: {
                 top: '0px'
@@ -148,8 +157,6 @@ export default {
         },
         getMessages(id) {
             this.selectedMessageId = id;
-            console.log(this.selectedMessageId);
-
         },
         showModal(type) {
             switch (type) {
@@ -161,6 +168,9 @@ export default {
                     break;
                 case 'create_group':
                     this.isShowModalCreateGroup = true
+                    break;
+                case 'add_to_group':
+                    this.isShowModalAddToGroup = true;
                     break;
             }
         },
@@ -177,6 +187,9 @@ export default {
                     break;
                 case 'create_group':
                     this.isShowModalCreateGroup = false;
+                    break;
+                case 'add_to_group':
+                    this.isShowModalAddToGroup = false;
                     break;
             }
         }
