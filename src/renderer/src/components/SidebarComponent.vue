@@ -3,6 +3,7 @@ import { Icon } from '@iconify/vue'
 import MessageMenu from '../modals/MessageMenu.vue';
 import UpdateInfoModal from '../modals/UpdateInfoModal.vue';
 import AddFriendModal from '../modals/AddFriendModal.vue';
+import AcceptFriendModal from '../modals/AcceptFriendModal.vue';
 import SendMessageModal from '../modals/SendMessageModal.vue';
 import CreateGroupModal from '../modals/CreateGroupModal.vue';
 import AddToGroupModal from '../modals/AddToGroupModal.vue';
@@ -13,39 +14,71 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
         <!-- Start header -->
         <div class="relative z-50 flex items-center justify-between">
             <h1 class="text-3xl font-bold">Đoạn chat</h1>
-            <label for="header_show_more"
-                class="bg-[#333334] p-2 rounded-full cursor-pointer transition-all duration-200 hover:brightness-90">
-                <Icon icon="material-symbols:menu-rounded" class="text-2xl" />
-            </label>
-            <input type="checkbox" id="header_show_more" hidden class="peer/header_show_more" />
-            <ul
-                class="p-2 absolute right-0 hidden flex-col peer-checked/header_show_more:flex rounded-xl outline outline-2 outline-[#383838] top-12 text-white bg-[#252728] w-52">
-                <li @click="showModal('update_info')"
-                    class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
-                    <Icon icon="material-symbols:info" class="text-2xl" />
-                    <h1>Cập nhật thông tin</h1>
-                </li>
-                <li @click="showModal('send_message')"
-                    class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
-                    <Icon icon="material-symbols:edit-square" class="text-2xl" />
-                    <h1>Soạn tin</h1>
-                </li>
-                <li @click="showModal('add_friend')"
-                    class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
-                    <Icon icon="material-symbols:person-add-rounded" class="text-2xl" />
-                    <h1>Kết bạn</h1>
-                </li>
-                <li @click="showModal('create_group')"
-                    class="flex gap-2 p-2.5 transition-all duration-200 cursor-pointer hover:brightness-75">
-                    <Icon icon="material-symbols:group-add" class="text-2xl" />
-                    <h1>Tạo nhóm mới</h1>
-                </li>
-                <li
-                    class="flex gap-2 p-2.5 pr-0 transition-all duration-200 cursor-pointer text-red-500 hover:brightness-75">
-                    <Icon icon="material-symbols:logout" class="text-2xl" />
-                    <h1 class="font-medium">Đăng xuất</h1>
-                </li>
-            </ul>
+            <div class="flex items-center">
+                <!-- Start header notifications menu -->
+                <label for="header_notification" class="p-2 cursor-pointer group">
+                    <Icon icon="material-symbols:notifications-unread"
+                        class="text-2xl transition-all duration-200 group-hover:brightness-75" />
+                </label>
+                <input type="checkbox" id="header_notification" hidden class="peer/header_notification">
+                <div
+                    class="gap-2 py-4 px-2 absolute right-0 hidden flex-col peer-checked/header_notification:flex rounded-xl outline outline-2 outline-[#383838] top-12 text-white bg-[#252728] w-80 h-[450px]">
+                    <div class="flex justify-end">
+                        <label for="header_notification"
+                            class="px-1 text-xl text-white transition-all duration-200 cursor-pointer hover:opacity-75">
+                            <Icon icon="material-symbols:close-rounded" />
+                        </label>
+                    </div>
+                    <ul
+                        class="overflow-scroll overflow-x-hidden scrollbar scrollbar-thumb-[#3e3e3e] scrollbar-track-transparent">
+                        <li v-for="i in 10" :key="i" @click="showModal('accept_friend')"
+                            class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
+                            <img src="../assets/avatar.jpg" alt="avatar" class="h-12 rounded-full">
+                            <h1>
+                                <strong>Duong Dua</strong>
+                                đã gửi lời mời kết bạn!
+                            </h1>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End header notifications menu -->
+
+                <!-- Start header show more menu -->
+                <label for="header_show_more"
+                    class="bg-[#333334] p-2 rounded-full cursor-pointer transition-all duration-200 hover:brightness-90">
+                    <Icon icon="material-symbols:menu-rounded" class="text-2xl" />
+                </label>
+                <input type="checkbox" id="header_show_more" hidden class="peer/header_show_more" />
+                <ul
+                    class="p-2 absolute right-0 hidden flex-col peer-checked/header_show_more:flex rounded-xl outline outline-2 outline-[#383838] top-12 text-white bg-[#252728] w-52">
+                    <li @click="showModal('update_info')"
+                        class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
+                        <Icon icon="material-symbols:info" class="text-2xl" />
+                        <h1>Cập nhật thông tin</h1>
+                    </li>
+                    <li @click="showModal('send_message')"
+                        class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
+                        <Icon icon="material-symbols:edit-square" class="text-2xl" />
+                        <h1>Soạn tin</h1>
+                    </li>
+                    <li @click="showModal('add_friend')"
+                        class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
+                        <Icon icon="material-symbols:person-add-rounded" class="text-2xl" />
+                        <h1>Kết bạn</h1>
+                    </li>
+                    <li @click="showModal('create_group')"
+                        class="flex gap-2 p-2.5 transition-all duration-200 cursor-pointer hover:brightness-75">
+                        <Icon icon="material-symbols:group-add" class="text-2xl" />
+                        <h1>Tạo nhóm mới</h1>
+                    </li>
+                    <li
+                        class="flex gap-2 p-2.5 pr-0 transition-all duration-200 cursor-pointer text-red-500 hover:brightness-75">
+                        <Icon icon="material-symbols:logout" class="text-2xl" />
+                        <h1 class="font-medium">Đăng xuất</h1>
+                    </li>
+                </ul>
+                <!-- End header show more menu -->
+            </div>
         </div>
         <!-- End header -->
 
@@ -138,6 +171,10 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
         <!-- Start modal add to group -->
         <AddToGroupModal v-if="isShowModalAddToGroup" @close_modal="closeModal('add_to_group')" />
         <!-- End modal add to group -->
+
+        <!-- Start modal accept friend -->
+        <AcceptFriendModal v-if="isShowModalAcceptFriend" @close_modal="closeModal('accept_friend')" />
+        <!-- End modal accept friend -->
     </div>
 </template>
 
@@ -151,6 +188,7 @@ export default {
             isShowModalAddFriend: false,
             isShowModalCreateGroup: false,
             isShowModalAddToGroup: false,
+            isShowModalAcceptFriend: false,
             selectedMessageId: 0,
             messageBoxPosition: {
                 top: '0px'
@@ -190,6 +228,9 @@ export default {
                 case 'add_to_group':
                     this.isShowModalAddToGroup = true;
                     break;
+                case 'accept_friend':
+                    this.isShowModalAcceptFriend = true;
+                    break;
             }
         },
         closeModal(type) {
@@ -211,6 +252,9 @@ export default {
                     break;
                 case 'add_to_group':
                     this.isShowModalAddToGroup = false;
+                    break;
+                case 'accept_friend':
+                    this.isShowModalAcceptFriend = false;
                     break;
             }
         }
