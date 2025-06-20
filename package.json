@@ -20,7 +20,9 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
-    "pinia": "^3.0.3"
+    "pinia": "^3.0.3",
+    "socket.io-client": "^4.8.1",
+    "vue-3-socket.io": "^1.0.5"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^2.0.0",

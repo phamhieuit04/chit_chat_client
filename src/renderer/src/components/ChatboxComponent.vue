@@ -71,12 +71,12 @@ import GroupInfoModal from '../modals/GroupInfoModal.vue';
             <div class="flex items-center gap-2 px-5 py-3">
                 <div
                     class="bg-[#333334] rounded-3xl flex flex-grow items-center outline outline-2 focus-within:outline-transparent hover:brightness-90 outline-transparent transition-all duration-200 border-[#7c7c7c]">
-                    <input type="text"
+                    <input type="text" v-model="message"
                         class="w-full text-white bg-transparent border-none focus:outline-none py-2.5 px-5"
                         placeholder="Soạn tin nhắn..." />
                 </div>
-                <div
-                    class="p-2.5 flex items-center justify-center cursor-pointer hover:bg-green-500 transition-all duration-200 bg-[#333334] rounded-full">
+                <div class="p-2.5 flex items-center justify-center cursor-pointer hover:bg-green-500 transition-all duration-200 bg-[#333334] rounded-full"
+                    @click="sendMessage()">
                     <Icon icon="material-symbols:send-rounded" class="text-2xl" />
                 </div>
             </div>
@@ -99,6 +99,7 @@ export default {
         return {
             isShowFriendInfoModal: false,
             isShowGroupInfoModal: false,
+            message: "",
             messages: [
                 {
                     id: 1,
@@ -178,6 +179,11 @@ export default {
             ]
         }
     },
+    sockets: {
+        connect: function () {
+            console.log('Connected!');
+        }
+    },
     watch: {
         '$route.params.id'(newId, oldId) {
             if (newId != oldId) {
@@ -186,6 +192,10 @@ export default {
         }
     },
     methods: {
+        sendMessage() {
+            this.message = "";
+            this.$socket.emit('sendMessageFromClient', this.message);
+        },
         scrollToBottom() {
             const lastMessage = this.$refs.messagesRef.lastElementChild;
             setTimeout(() => {
