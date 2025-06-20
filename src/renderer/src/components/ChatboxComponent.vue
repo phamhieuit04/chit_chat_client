@@ -1,5 +1,7 @@
 <script setup>
 import { Icon } from '@iconify/vue';
+import FriendInfoModal from '../modals/FriendInfoModal.vue';
+import GroupInfoModal from '../modals/GroupInfoModal.vue';
 </script>
 
 <template>
@@ -19,8 +21,18 @@ import { Icon } from '@iconify/vue';
                         <p class="text-sm opacity-75">Đang hoạt động</p>
                     </div>
                 </div>
-                <div class="flex items-center cursor-pointer hover:brightness-75">
-                    <Icon icon="material-symbols:info" class="text-3xl text-green-500" />
+                <div class="flex items-center justify-center gap-2">
+                    <!-- Start friend info -->
+                    <div class="flex items-center cursor-pointer hover:brightness-75" @click="showModal('friend_info')">
+                        <Icon icon="material-symbols:info" class="text-3xl" />
+                    </div>
+                    <!-- End friend info -->
+
+                    <!-- Start group info -->
+                    <div class="flex items-center cursor-pointer hover:brightness-75" @click="showModal('group_info')">
+                        <Icon icon="material-symbols:info" class="text-3xl" />
+                    </div>
+                    <!-- End group info -->
                 </div>
             </div>
             <!-- End header -->
@@ -29,7 +41,7 @@ import { Icon } from '@iconify/vue';
             <ul ref="messagesRef"
                 class="flex flex-col flex-grow gap-4 p-4 overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-[#3e3e3e] scrollbar-track-transparent">
                 <li v-for="message in messages" :key="message.id">
-                    <div class="flex gap-2 group" v-if="message.type == 'friend'">
+                    <div v-if="message.type == 'friend'" class="flex gap-2 group">
                         <img src="../assets/avatar.jpg" alt="avatar" class="rounded-full h-9">
                         <div class="flex flex-col justify-center px-3 py-2 bg-[#303030] rounded-xl max-w-80">
                             <p>{{ message.message }}</p>
@@ -40,12 +52,12 @@ import { Icon } from '@iconify/vue';
                             <Icon icon="material-symbols:delete" class="text-2xl" />
                         </div>
                     </div>
-                    <div class="flex justify-end gap-2 group" v-if="message.type == 'me'">
+                    <div v-if="message.type == 'me'" class="flex justify-end gap-2 group">
                         <div
                             class="p-1 text-red-500 group-hover:opacity-100 bg-[#303030] size-10 opacity-0 flex items-center justify-center rounded-full cursor-pointer hover:brightness-90 transition-all duration-200">
                             <Icon icon="material-symbols:delete" class="text-2xl" />
                         </div>
-                        <div class="flex flex-col justify-center px-3 py-2 bg-green-500 rounded-xl max-w-80">
+                        <div class="flex flex-col justify-center px-3 py-2 bg-green-500 rounded-xl max-w-80 min-w-24">
                             <p>{{ message.message }}</p>
                             <p class="text-[12px] opacity-75">12:00</p>
                         </div>
@@ -71,12 +83,22 @@ import { Icon } from '@iconify/vue';
             <!-- End send message -->
         </div>
     </div>
+
+    <!-- Start modal friend info -->
+    <FriendInfoModal v-if="isShowFriendInfoModal" @close_modal="closeModal('friend_info')" />
+    <!-- End modal friend info -->
+
+    <!-- Start modal group info -->
+    <GroupInfoModal v-if="isShowGroupInfoModal" @close_modal="closeModal('group_info')" />
+    <!-- End modal group info -->
 </template>
 
 <script>
 export default {
     data() {
         return {
+            isShowFriendInfoModal: false,
+            isShowGroupInfoModal: false,
             messages: [
                 {
                     id: 1,
@@ -150,7 +172,7 @@ export default {
                 },
                 {
                     id: 15,
-                    message: 'Hahahaha',
+                    message: 'Hi',
                     type: 'me'
                 },
             ]
@@ -159,18 +181,38 @@ export default {
     watch: {
         '$route.params.id'(newId, oldId) {
             if (newId != oldId) {
-                setTimeout(() => {
-                    this.scrollToBottom();
-                }, 100);
+                this.scrollToBottom();
             }
         }
     },
     methods: {
         scrollToBottom() {
             const lastMessage = this.$refs.messagesRef.lastElementChild;
-            lastMessage.scrollIntoView({
-                behavior: 'smooth',
-            })
+            setTimeout(() => {
+                lastMessage.scrollIntoView({
+                    behavior: 'smooth',
+                })
+            }, 100)
+        },
+        showModal(type) {
+            switch (type) {
+                case 'friend_info':
+                    this.isShowFriendInfoModal = true;
+                    break;
+                case 'group_info':
+                    this.isShowGroupInfoModal = true;
+                    break;
+            }
+        },
+        closeModal(type) {
+            switch (type) {
+                case 'friend_info':
+                    this.isShowFriendInfoModal = false;;
+                    break;
+                case 'group_info':
+                    this.isShowGroupInfoModal = false;
+                    break;
+            }
         }
     }
 }
