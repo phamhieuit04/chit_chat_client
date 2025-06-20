@@ -1,6 +1,7 @@
 <script setup>
 import { Icon } from '@iconify/vue'
 import MessageMenu from '../modals/MessageMenu.vue';
+import UpdateInfoModal from '../modals/UpdateInfoModal.vue';
 import AddFriendModal from '../modals/AddFriendModal.vue';
 import SendMessageModal from '../modals/SendMessageModal.vue';
 import CreateGroupModal from '../modals/CreateGroupModal.vue';
@@ -8,7 +9,7 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
 </script>
 
 <template>
-    <div class="flex flex-col gap-4 w-[26%] bg-[#252728] text-white p-5 select-none relative rounded-2xl">
+    <div class="flex flex-col gap-4 w-[26%] bg-[#252728] text-white select-none relative rounded-2xl p-5">
         <!-- Start header -->
         <div class="relative z-50 flex items-center justify-between">
             <h1 class="text-3xl font-bold">Đoạn chat</h1>
@@ -19,6 +20,11 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
             <input type="checkbox" id="header_show_more" hidden class="peer/header_show_more" />
             <ul
                 class="p-2 absolute right-0 hidden flex-col peer-checked/header_show_more:flex rounded-xl outline outline-2 outline-[#383838] top-12 text-white bg-[#252728] w-52">
+                <li @click="showModal('update_info')"
+                    class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
+                    <Icon icon="material-symbols:info" class="text-2xl" />
+                    <h1>Cập nhật thông tin</h1>
+                </li>
                 <li @click="showModal('send_message')"
                     class="flex p-2.5 cursor-pointer gap-2 transition-all duration-200 hover:brightness-75">
                     <Icon icon="material-symbols:edit-square" class="text-2xl" />
@@ -75,7 +81,7 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
                 <input type="radio" id="classify_group" name="classify_radio" class="hidden peer/classify" />
                 <label for="classify_group"
                     class="bg-transparent transition-all duration-200 flex items-center justify-center rounded-3xl min-w-16 hover:brightness-90 font-semibold hover:bg-[#3b3d3e] peer-checked/classify:bg-[#3b3d3e] py-1.5 px-4 cursor-pointer">
-                    Tất cả
+                    Nhóm
                 </label>
             </li>
         </ul>
@@ -98,7 +104,10 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
                             class="shadow-sm shadow-black/50 flex items-center justify-center bg-[#333334] rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-[#4f5052]">
                             <Icon icon="material-symbols:expand-more-rounded" class="text-2xl" />
                         </div>
-                        <div class="bg-green-600 rounded-full size-3" />
+                        <div class="flex flex-col items-end gap-2">
+                            <p class="text-sm font-medium">1 giờ</p>
+                            <div class="bg-green-600 rounded-full size-3" />
+                        </div>
                     </div>
                 </div>
             </li>
@@ -109,6 +118,10 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
         <MessageMenu v-if="isShowMenu" :style="messageBoxPosition" @show_modal="showModal('add_to_group')"
             @close_modal="closeModal('message_menu')" />
         <!-- End modal messsage  menu -->
+
+        <!-- Start modal update info -->
+        <UpdateInfoModal v-if="isShowModalUpdateInfo" @close_modal="closeModal('update_info')" />
+        <!-- End modal update info -->
 
         <!-- Start modal send message -->
         <SendMessageModal v-if="isShowModalSendMessage" @close_modal="closeModal('send_message')" />
@@ -133,6 +146,7 @@ export default {
     data() {
         return {
             isShowMenu: false,
+            isShowModalUpdateInfo: false,
             isShowModalSendMessage: false,
             isShowModalAddFriend: false,
             isShowModalCreateGroup: false,
@@ -161,6 +175,9 @@ export default {
         },
         showModal(type) {
             switch (type) {
+                case 'update_info':
+                    this.isShowModalUpdateInfo = true;
+                    break;
                 case 'send_message':
                     this.isShowModalSendMessage = true;
                     break;
@@ -177,6 +194,9 @@ export default {
         },
         closeModal(type) {
             switch (type) {
+                case 'update_info':
+                    this.isShowModalUpdateInfo = false;
+                    break;
                 case 'message_menu':
                     this.isShowMenu = false
                     break;
