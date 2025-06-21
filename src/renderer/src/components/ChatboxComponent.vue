@@ -191,8 +191,8 @@ export default {
     },
     methods: {
         sendMessage() {
-            this.message = "";
             this.$socket.emit('sendMessageFromClient', this.message);
+            this.message = "";
         },
         scrollToBottom() {
             this.$nextTick(() => {

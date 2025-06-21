@@ -1,7 +1,8 @@
-import { createWebHashHistory, createRouter } from 'vue-router'
+import { createWebHashHistory, createWebHistory, createRouter } from 'vue-router'
 import IndexPage from '../pages/IndexPage.vue'
 import AuthPage from '../pages/AuthPage.vue'
 import ChatboxComponent from '../components/ChatboxComponent.vue'
+import { useAuthStore } from '../stores/auth'
 
 const routes = [
     {
@@ -14,7 +15,7 @@ const routes = [
         name: 'AuthPage'
     },
     {
-        path: '/index',
+        path: '/index/:user',
         component: IndexPage,
         name: 'IndexPage',
         children: [
@@ -23,24 +24,13 @@ const routes = [
                 component: ChatboxComponent,
                 name: 'ChatboxComponent'
             }
-        ],
-        meta: {
-            requiresAuth: true
-        }
+        ]
     }
 ]
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 })
-
-// router.beforeEach((to, from) => {
-//     if (to.meta.requiresAuth) {
-//         return {
-//             path: '/auth'
-//         }
-//     }
-// })
 
 export default router
