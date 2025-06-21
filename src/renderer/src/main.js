@@ -1,7 +1,7 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import { router } from './router'
+import router from './router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import VueSocketIO from 'vue-3-socket.io'
@@ -21,6 +21,7 @@ const socket = new VueSocketIO({
 
 const app = createApp(App)
 app.use(socket)
-app.use(router, pinia)
+app.use(router)
+app.use(pinia)
 
 app.mount('#app')

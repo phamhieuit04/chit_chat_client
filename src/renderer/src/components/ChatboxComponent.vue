@@ -5,84 +5,79 @@ import GroupInfoModal from '../modals/GroupInfoModal.vue';
 </script>
 
 <template>
-    <div class="flex flex-grow bg-[#252728] rounded-2xl text-white">
-        <div v-show="$route.params.id == 0 || $route.params.id == null || $route.params.id == undefined"
-            class="flex items-center justify-center flex-grow">
-            <h1 class="text-3xl font-bold text-white">Xin chào Hiếu Phạm, chúc bạn ngày mới tốt lành!</h1>
-        </div>
-
-        <div v-show="$route.params.id >= 1" class="flex flex-col flex-grow">
-            <!-- Start header -->
-            <div class="z-20 flex justify-between p-5 shadow-md select-none shadow-black/20">
-                <div class="flex items-center gap-2">
-                    <img src="../assets/avatar.jpg" alt="avatar" class="h-12 rounded-full">
-                    <div class="flex flex-col">
-                        <h1 class="text-xl font-bold">Duong Dua</h1>
-                        <p class="text-sm opacity-75">Đang hoạt động</p>
-                    </div>
-                </div>
-                <div class="flex items-center justify-center gap-2">
-                    <!-- Start friend info -->
-                    <div class="flex items-center cursor-pointer hover:brightness-75" @click="showModal('friend_info')">
-                        <Icon icon="material-symbols:info" class="text-3xl" />
-                    </div>
-                    <!-- End friend info -->
-
-                    <!-- Start group info -->
-                    <div class="flex items-center cursor-pointer hover:brightness-75" @click="showModal('group_info')">
-                        <Icon icon="material-symbols:info" class="text-3xl" />
-                    </div>
-                    <!-- End group info -->
+    <!-- Start chat box -->
+    <div class="flex flex-col flex-grow">
+        <!-- Start header -->
+        <div class="z-20 flex justify-between p-5 shadow-md select-none shadow-black/20">
+            <div class="flex items-center gap-2">
+                <img src="../assets/avatar.jpg" alt="avatar" class="h-12 rounded-full">
+                <div class="flex flex-col">
+                    <h1 class="text-xl font-bold">Duong Dua</h1>
+                    <p class="text-sm opacity-75">Đang hoạt động</p>
                 </div>
             </div>
-            <!-- End header -->
-
-            <!-- Start chat -->
-            <ul ref="messagesRef"
-                class="flex flex-col flex-grow gap-4 p-4 overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-[#3e3e3e] scrollbar-track-transparent">
-                <li v-for="message in messages" :key="message.id">
-                    <div v-if="message.type == 'friend'" class="flex gap-2 group">
-                        <img src="../assets/avatar.jpg" alt="avatar" class="rounded-full h-9">
-                        <div class="flex flex-col justify-center px-3 py-2 bg-[#303030] rounded-xl max-w-80">
-                            <p>{{ message.message }}</p>
-                            <p class="text-[12px] opacity-75">12:00</p>
-                        </div>
-                        <div
-                            class="p-1 text-red-500 group-hover:opacity-100 bg-[#303030] size-10 opacity-0 flex items-center justify-center rounded-full cursor-pointer hover:brightness-90 transition-all duration-200">
-                            <Icon icon="material-symbols:delete" class="text-2xl" />
-                        </div>
-                    </div>
-                    <div v-if="message.type == 'me'" class="flex justify-end gap-2 group">
-                        <div
-                            class="p-1 text-red-500 group-hover:opacity-100 bg-[#303030] size-10 opacity-0 flex items-center justify-center rounded-full cursor-pointer hover:brightness-90 transition-all duration-200">
-                            <Icon icon="material-symbols:delete" class="text-2xl" />
-                        </div>
-                        <div class="flex flex-col justify-center px-3 py-2 bg-green-500 rounded-xl max-w-80 min-w-24">
-                            <p>{{ message.message }}</p>
-                            <p class="text-[12px] opacity-75">12:00</p>
-                        </div>
-                        <img src="../assets/avatar.jpg" alt="avatar" class="rounded-full h-9">
-                    </div>
-                </li>
-            </ul>
-            <!-- End chat -->
-
-            <!-- Start send message -->
-            <div class="flex items-center gap-2 px-5 py-3">
-                <div
-                    class="bg-[#333334] rounded-3xl flex flex-grow items-center outline outline-2 focus-within:outline-transparent hover:brightness-90 outline-transparent transition-all duration-200 border-[#7c7c7c]">
-                    <input type="text" v-model="message"
-                        class="w-full text-white bg-transparent border-none focus:outline-none py-2.5 px-5"
-                        placeholder="Soạn tin nhắn..." />
+            <div class="flex items-center justify-center gap-2">
+                <!-- Start friend info -->
+                <div class="flex items-center cursor-pointer hover:brightness-75" @click="showModal('friend_info')">
+                    <Icon icon="material-symbols:info" class="text-3xl" />
                 </div>
-                <div class="p-2.5 flex items-center justify-center cursor-pointer hover:bg-green-500 transition-all duration-200 bg-[#333334] rounded-full"
-                    @click="sendMessage()">
-                    <Icon icon="material-symbols:send-rounded" class="text-2xl" />
+                <!-- End friend info -->
+
+                <!-- Start group info -->
+                <div class="flex items-center cursor-pointer hover:brightness-75" @click="showModal('group_info')">
+                    <Icon icon="material-symbols:info" class="text-3xl" />
                 </div>
+                <!-- End group info -->
             </div>
-            <!-- End send message -->
         </div>
+        <!-- End header -->
+
+        <!-- Start chat -->
+        <ul ref="messagesRef"
+            class="flex flex-col flex-grow gap-4 p-4 overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-[#3e3e3e] scrollbar-track-transparent">
+            <li v-for="message in messages" :key="message.id">
+                <div v-if="message.type == 'friend'" class="flex gap-2 group">
+                    <img src="../assets/avatar.jpg" alt="avatar" class="rounded-full h-9">
+                    <div class="flex flex-col justify-center px-3 py-2 bg-[#303030] rounded-xl max-w-80">
+                        <p>{{ message.message }}</p>
+                        <p class="text-[12px] opacity-75">12:00</p>
+                    </div>
+                    <div
+                        class="p-1 text-red-500 group-hover:opacity-100 bg-[#303030] size-10 opacity-0 flex items-center justify-center rounded-full cursor-pointer hover:brightness-90 transition-all duration-200">
+                        <Icon icon="material-symbols:delete" class="text-2xl" />
+                    </div>
+                </div>
+                <div v-if="message.type == 'me'" class="flex justify-end gap-2 group">
+                    <div
+                        class="p-1 text-red-500 group-hover:opacity-100 bg-[#303030] size-10 opacity-0 flex items-center justify-center rounded-full cursor-pointer hover:brightness-90 transition-all duration-200">
+                        <Icon icon="material-symbols:delete" class="text-2xl" />
+                    </div>
+                    <div class="flex flex-col justify-center px-3 py-2 bg-green-500 rounded-xl max-w-80 min-w-24">
+                        <p>{{ message.message }}</p>
+                        <p class="text-[12px] opacity-75">12:00</p>
+                    </div>
+                    <img src="../assets/avatar.jpg" alt="avatar" class="rounded-full h-9">
+                </div>
+            </li>
+        </ul>
+        <!-- End chat -->
+
+        <!-- Start send message -->
+        <div class="flex items-center gap-2 px-5 py-3">
+            <div
+                class="bg-[#333334] rounded-3xl flex flex-grow items-center outline outline-2 focus-within:outline-transparent hover:brightness-90 outline-transparent transition-all duration-200 border-[#7c7c7c]">
+                <input type="text" v-model="message"
+                    class="w-full text-white bg-transparent border-none focus:outline-none py-2.5 px-5"
+                    placeholder="Soạn tin nhắn..." />
+            </div>
+            <div class="p-2.5 flex items-center justify-center cursor-pointer hover:bg-green-500 transition-all duration-200 bg-[#333334] rounded-full"
+                @click="sendMessage()">
+                <Icon icon="material-symbols:send-rounded" class="text-2xl" />
+            </div>
+        </div>
+        <!-- End send message -->
     </div>
+    <!-- End chat box -->
 
     <!-- Start modal friend info -->
     <FriendInfoModal v-if="isShowFriendInfoModal" @close_modal="closeModal('friend_info')" />
@@ -179,6 +174,9 @@ export default {
             ]
         }
     },
+    mounted() {
+        this.scrollToBottom();
+    },
     sockets: {
         connect: function () {
             console.log('Connected!');
@@ -197,12 +195,12 @@ export default {
             this.$socket.emit('sendMessageFromClient', this.message);
         },
         scrollToBottom() {
-            const lastMessage = this.$refs.messagesRef.lastElementChild;
-            setTimeout(() => {
-                lastMessage.scrollIntoView({
-                    behavior: 'smooth',
-                })
-            }, 100)
+            this.$nextTick(() => {
+                const lastMessage = this.$refs.messagesRef?.lastElementChild;
+                if (lastMessage) {
+                    lastMessage.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         },
         showModal(type) {
             switch (type) {

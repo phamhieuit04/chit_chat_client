@@ -31,10 +31,6 @@ import { Icon } from '@iconify/vue'
                                 <img src="../assets/avatar.jpg" alt="avatar" class="h-12 rounded-full">
                                 <h1 class="font-medium">Hieu Pham</h1>
                             </div>
-                            <div
-                                class="bg-[#333334] p-2 rounded-full cursor-pointer text-red-500 hover:opacity-75 transition-all duration-200">
-                                <Icon icon="material-symbols:delete" class="text-xl" />
-                            </div>
                         </li>
                     </ul>
                 </div>
@@ -42,7 +38,7 @@ import { Icon } from '@iconify/vue'
                     <button
                         class="w-full px-3 py-2 text-center transition-all duration-200 bg-red-500 rounded-lg hover:opacity-75"
                         @click="$emit('close_modal')">
-                        Xóa nhóm
+                        Rời nhóm
                     </button>
                 </div>
             </div>

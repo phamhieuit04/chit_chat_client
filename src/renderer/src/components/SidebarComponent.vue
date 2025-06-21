@@ -7,6 +7,7 @@ import AcceptFriendModal from '../modals/AcceptFriendModal.vue';
 import SendMessageModal from '../modals/SendMessageModal.vue';
 import CreateGroupModal from '../modals/CreateGroupModal.vue';
 import AddToGroupModal from '../modals/AddToGroupModal.vue';
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
@@ -71,11 +72,11 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
                         <Icon icon="material-symbols:group-add" class="text-2xl" />
                         <h1>Tạo nhóm mới</h1>
                     </li>
-                    <li
+                    <RouterLink to="/auth"
                         class="flex gap-2 p-2.5 pr-0 transition-all duration-200 cursor-pointer text-red-500 hover:brightness-75">
                         <Icon icon="material-symbols:logout" class="text-2xl" />
                         <h1 class="font-medium">Đăng xuất</h1>
-                    </li>
+                    </RouterLink>
                 </ul>
                 <!-- End header show more menu -->
             </div>
@@ -209,7 +210,7 @@ export default {
         },
         getMessages(id) {
             this.selectedMessageId = id;
-            this.$router.push('/chatbox/' + id);
+            this.$router.push({ name: 'ChatboxComponent', params: { id } })
         },
         showModal(type) {
             switch (type) {
