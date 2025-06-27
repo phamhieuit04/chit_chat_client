@@ -1,8 +1,7 @@
-import { createWebHashHistory, createWebHistory, createRouter } from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router'
 import IndexPage from '../pages/IndexPage.vue'
 import AuthPage from '../pages/AuthPage.vue'
 import ChatboxComponent from '../components/ChatboxComponent.vue'
-import { useAuthStore } from '../stores/auth'
 
 const routes = [
     {
@@ -15,7 +14,7 @@ const routes = [
         name: 'AuthPage'
     },
     {
-        path: '/index/:user',
+        path: '/index',
         component: IndexPage,
         name: 'IndexPage',
         children: [

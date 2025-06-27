@@ -7,7 +7,6 @@ import AcceptFriendModal from '../modals/AcceptFriendModal.vue';
 import SendMessageModal from '../modals/SendMessageModal.vue';
 import CreateGroupModal from '../modals/CreateGroupModal.vue';
 import AddToGroupModal from '../modals/AddToGroupModal.vue';
-import { useAuthStore } from '../stores/auth';
 </script>
 
 <template>
@@ -183,7 +182,6 @@ import { useAuthStore } from '../stores/auth';
 export default {
     data() {
         return {
-            authStore: useAuthStore(),
             isShowMenu: false,
             isShowModalUpdateInfo: false,
             isShowModalSendMessage: false,
@@ -199,7 +197,6 @@ export default {
     },
     methods: {
         logOut() {
-            this.authStore.setUser("");
             this.$router.push('/auth');
         },
         showMessageMenu(id) {
