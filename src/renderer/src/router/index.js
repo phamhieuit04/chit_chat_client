@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 import IndexPage from '../pages/IndexPage.vue'
 import AuthPage from '../pages/AuthPage.vue'
 import ChatboxComponent from '../components/ChatboxComponent.vue'
+import AuthCallbackPage from '../pages/AuthCallbackPage.vue'
 
 const routes = [
     {
@@ -12,6 +13,11 @@ const routes = [
         path: '/auth',
         component: AuthPage,
         name: 'AuthPage'
+    },
+    {
+        path: '/auth/callback',
+        component: AuthCallbackPage,
+        name: AuthCallbackPage
     },
     {
         path: '/index',
