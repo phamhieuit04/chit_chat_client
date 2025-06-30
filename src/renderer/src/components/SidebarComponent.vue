@@ -7,6 +7,7 @@ import AcceptFriendModal from '../modals/AcceptFriendModal.vue';
 import SendMessageModal from '../modals/SendMessageModal.vue';
 import CreateGroupModal from '../modals/CreateGroupModal.vue';
 import AddToGroupModal from '../modals/AddToGroupModal.vue';
+import axios from 'axios';
 </script>
 
 <template>
@@ -123,17 +124,17 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
         <!-- Start message -->
         <ul
             class="flex flex-col gap-1.5 overflow-scroll overflow-x-hidden scrollbar scrollbar-thumb-[#3e3e3e] scrollbar-track-transparent pr-2">
-            <li v-for="i in 20" :key="i" ref="items" @click="getMessages(i)"
-                :class="{ 'bg-[#3b3d3e]': selectedMessageId == i }"
+            <li v-for="(chatbox, index) in chatboxes" :key="chatbox.id" ref="items" @click="getMessages(chatbox.id)"
+                :class="{ 'bg-[#3b3d3e]': selectedMessageId == chatbox.id }"
                 class="flex items-center gap-3 p-3 rounded-xl cursor-pointer hover:brightness-90 transition-all duration-200 hover:bg-[#3b3d3e] group">
                 <img class="rounded-full size-12" src="../assets/avatar.jpg" alt="avatar" />
                 <div class="flex items-center justify-between flex-grow">
-                    <div>
-                        <h1 class="text-lg font-bold">Hieu Pham</h1>
-                        <p class="text-sm font-medium text-white">Xin chao em !</p>
+                    <div class="w-44">
+                        <h1 class="text-lg font-bold truncate">{{ chatbox.chatroom_name }}</h1>
+                        <p class="text-sm font-medium text-white truncate">{{ chatbox.last_message.message }}</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div @click="showMessageMenu(i - 1)"
+                        <div @click="showMessageMenu(index)"
                             class="shadow-sm shadow-black/50 flex items-center justify-center bg-[#333334] rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-[#4f5052]">
                             <Icon icon="material-symbols:expand-more-rounded" class="text-2xl" />
                         </div>
@@ -182,6 +183,7 @@ import AddToGroupModal from '../modals/AddToGroupModal.vue';
 export default {
     data() {
         return {
+            chatboxes: null,
             isShowMenu: false,
             isShowModalUpdateInfo: false,
             isShowModalSendMessage: false,
@@ -195,7 +197,23 @@ export default {
             }
         }
     },
+    mounted() {
+        this.getChatbox();
+    },
     methods: {
+        async getChatbox() {
+            await axios.get('http://127.0.0.1:8000/api/user/list-chat-room', {
+                'headers': {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    this.chatboxes = res.data.data
+                }
+            }).catch((err) => {
+                alert(err);
+            })
+        },
         logOut() {
             this.$router.push('/auth');
         },
