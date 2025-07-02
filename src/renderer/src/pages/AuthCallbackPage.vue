@@ -9,17 +9,23 @@
 export default {
     data() {
         return {
-            count: 5
+            count: 5,
+            timer: null
         }
     },
     mounted() {
-        localStorage.setItem('token', (window.location.search).slice(7));
-        setInterval(() => {
-            this.count -= 1;
+        const token = new URL('http://localhost' + window.location.hash.slice(1)).searchParams.get('token')
+        localStorage.setItem('token', token)
+        this.timer = setInterval(() => {
+            this.count--
             if (this.count <= 0) {
-                this.$router.push('/index');
+                clearInterval(this.timer)
+                this.$router.push('/index')
             }
-        }, 1000);
+        }, 1000)
+    },
+    beforeUnmount() {
+        clearInterval(this.timer)
     }
 }
 </script>

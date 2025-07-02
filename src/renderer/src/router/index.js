@@ -1,4 +1,4 @@
-import { createWebHistory, createRouter } from 'vue-router'
+import { createWebHistory, createWebHashHistory, createRouter } from 'vue-router'
 import IndexPage from '../pages/IndexPage.vue'
 import AuthPage from '../pages/AuthPage.vue'
 import ChatboxComponent from '../components/ChatboxComponent.vue'
@@ -34,7 +34,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes
 })
 
