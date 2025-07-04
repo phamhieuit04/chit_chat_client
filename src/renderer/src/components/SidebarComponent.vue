@@ -228,9 +228,23 @@ export default {
             }
             this.isShowMenu = true
         },
-        getMessages(id) {
-            this.selectedMessageId = id;
-            this.$router.push({ name: 'ChatboxComponent', params: { id } })
+        async getMessages(id) {
+            await axios.get('http://127.0.0.1:8000/api/user/list-message', {
+                params: {
+                    'chatroom_id': id
+                },
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    localStorage.setItem('messages', JSON.stringify(res.data.data));
+                    this.selectedMessageId = id;
+                    this.$router.push({ name: 'ChatboxComponent', params: { id } })
+                }
+            }).catch((err) => {
+                console.log(err);
+            })
         },
         showModal(type) {
             switch (type) {
