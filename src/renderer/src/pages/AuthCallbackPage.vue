@@ -14,8 +14,11 @@ export default {
         }
     },
     mounted() {
-        const token = new URL('http://localhost' + window.location.hash.slice(1)).searchParams.get('token')
-        localStorage.setItem('token', token)
+        const queryString = window.location.hash.split('?')[1];
+        const token = new URLSearchParams(queryString).get('token');
+        const user_id = new URLSearchParams(queryString).get('user_id');
+        localStorage.setItem('token', token);
+        localStorage.setItem('user_id', user_id);
         this.timer = setInterval(() => {
             this.count--
             if (this.count <= 0) {

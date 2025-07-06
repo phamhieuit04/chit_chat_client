@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/vue';
 import FriendInfoModal from '../modals/FriendInfoModal.vue';
 import GroupInfoModal from '../modals/GroupInfoModal.vue';
+import axios from 'axios';
 </script>
 
 <template>
@@ -107,8 +108,18 @@ export default {
         this.scrollToBottom();
     },
     sockets: {
-        connect: function () {
-            console.log('Connected!');
+        reciveMessageFromServer: function (res) {
+            let user_id = localStorage.getItem('user_id');
+            let users_id = localStorage.getItem('users_id').split(',');
+            if (!users_id.includes(String(res.user_id))) {
+                return;
+            }
+            res.type = res.user_id == user_id ? 'me' : 'friend';
+            this.messages.messages.push(res);
+            this.$forceUpdate();
+            this.$nextTick(() => {
+                this.scrollToBottom();
+            });
         }
     },
     watch: {
@@ -120,9 +131,22 @@ export default {
         }
     },
     methods: {
-        sendMessage() {
-            this.$socket.emit('sendMessageFromClient', this.message);
-            this.message = "";
+        async sendMessage() {
+            let formData = new FormData();
+            formData.append('chatroom_id', this.$route.params.id);
+            formData.append('message', this.message);
+            await axios.post('http://127.0.0.1:8000/api/user/send-message', formData, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    this.$socket.emit('sendMessageFromClient', res.data.data);
+                    this.message = "";
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         },
         scrollToBottom() {
             this.$nextTick(() => {

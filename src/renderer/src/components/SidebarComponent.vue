@@ -238,8 +238,10 @@ export default {
                 }
             }).then((res) => {
                 if (res.status == 200) {
+                    this.$socket.emit('joinRoom', id);
                     localStorage.setItem('messages', JSON.stringify(res.data.data));
-                    this.selectedMessageId = id;
+                    this.selectedMessagesId = id;
+                    localStorage.setItem('users_id', res.data.data.users_id);
                     this.$router.push({ name: 'ChatboxComponent', params: { id } })
                 }
             }).catch((err) => {
